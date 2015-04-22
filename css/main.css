@@ -1,0 +1,41 @@
+/*==============================
+=            NAVBAR            =
+==============================*/
+#logo {
+  padding: 0 10px 0 0; }
+  #logo img {
+    height: 100%;
+    width: auto; }
+
+#logo-text span {
+  font: 36px 'Poiret One';
+  line-height: 15px; }
+
+.navbar-nav li {
+  font: 24px 'Poiret One', cursive;
+  padding: 0px 10px; }
+
+.navbar {
+  border: none; }
+
+.container {
+  max-width: 1000px;
+  margin: auto; }
+
+/*============================
+=            HOME            =
+============================*/
+.jumbotron {
+  background: #fff; }
+  .jumbotron h1, .jumbotron h2 {
+    font-family: 'Lobster', cursive; }
+  .jumbotron img {
+    max-width: 500px;
+    height: auto; }
+  .jumbotron p {
+    font-family: Lora,sans-serif; }
+  .jumbotron span {
+    font: .7em Arial,sans-serif;
+    display: inline-block; }
+
+/*# sourceMappingURL=main.css.map */

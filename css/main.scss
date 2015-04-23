@@ -54,3 +54,34 @@
 		display: inline-block;
 	}
 }
+
+/*============================
+=            PLAY            =
+============================*/
+
+.piano-back {
+	position: absolute;
+	border: 1px solid #000;
+	border-radius: 10px;
+	width: 600px;
+	height: 200px;
+	background: #999;
+	display: none;
+}
+
+.black-keys {
+	list-style-type: none;
+
+	li {
+		// padding: 0;
+		// margin: 0;
+		float: left;
+		margin-right: -10px;
+
+
+		img {
+			width: 50px;
+			height:auto;
+		}
+	}
+}

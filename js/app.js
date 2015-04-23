@@ -6,10 +6,11 @@
 angular.module('app', []);
 
 angular.module('app')
-	.controller('MainCtrl', ['$scope', function ($scope) {
-		$scope.message = 'hello';
+	.controller('DrawCtrl', function() {
+		var self = this;
+		self.img = 'img/background.png';
 
-		$scope.updateMessage = function(message){
-			$scope.message = message;
+		this.range = function(num) {
+			return new Array(num);
 		};
-}]);
+	});

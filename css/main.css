@@ -89,6 +89,9 @@
     .black-keys li:first-child {
       margin-left: 28px; }
 
+.black-hidden {
+  visibility: hidden; }
+
 .piano {
   width: 960px; }
 

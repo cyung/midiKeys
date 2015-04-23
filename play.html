@@ -32,18 +32,23 @@
 				</form>
 			</div>
 		</nav>
-		<div class="container">
-			<div class="jumbotron" ng-app="app">
-				<div class="piano-back"></div>
-	<!-- 			<div ng-controller="DrawCtrl as draw">
-					<img ng-src={{draw.offset}} ng-repeat="t in draw.range(10) track by $index">
-				</div> -->
-				<ul class="black-keys" ng-controller="DrawCtrl as draw">
+		<div class="container piano" ng-app="app">
+			<div ng-controller="DrawCtrl as draw">
+				<ul class="piano-back">
 					<li ng-repeat="t in draw.range(20) track by $index">
-						<img ng-src={{draw.img}} />
+						<img ng-src={{draw.piano_back}} />
 					</li>
 				</ul>
-				<div class="black-keys"></div>
+				<ul class="white-keys">
+					<li ng-repeat="t in draw.range(56) track by $index">
+						<img ng-src={{draw.white_key}} />
+					</li>
+				</ul>
+				<ul class="black-keys">
+					<li ng-repeat="t in draw.range(55) track by $index">
+						<img ng-src={{draw.black_key}} />
+					</li>
+				</ul>
 			</div>
 		</div>
 	</body>

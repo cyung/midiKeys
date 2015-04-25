@@ -11,6 +11,9 @@ angular.module('app')
 		self.piano_back = 'img/background.png';
 		self.white_key = 'img/midi_white_up.png';
 		self.black_key = 'img/midi_black_up.png';
+		self.white_key_down = 'img/midi_white_down.png';
+		self.black_key_down = 'img/midi_white_down.png';
+		self.obj = {down: false};
 
 		self.keys = [];
 		var keyGroupOf3 = true;
@@ -60,14 +63,22 @@ angular.module('app')
 	.directive('pressWhiteKey', [ function () {
 		return {
 			link: function (scope, elem, attrs) {
+				var parent = scope.$parent.$parent;
+				parent.down = false;
 				elem.bind('mousedown', function() {
 					elem[0].src = 'img/midi_white_down.png';
+					parent.down = true;
 				});
 				elem.bind('mouseup', function() {
 					elem[0].src = 'img/midi_white_up.png';
+					parent.down = false;
 				});
 				elem.bind('mouseleave', function() {
 					elem[0].src = 'img/midi_white_up.png';
+				});
+				elem.bind('mouseenter', function() {
+					if (parent.down)
+						elem[0].src = 'img/midi_white_down.png';
 				});
 			}
 		};
@@ -76,14 +87,22 @@ angular.module('app')
 	.directive('pressBlackKey', [ function () {
 		return {
 			link: function (scope, elem, attrs) {
+				var parent = scope.$parent.$parent.$parent;
+				parent.down = false;
 				elem.bind('mousedown', function() {
 					elem[0].src = 'img/midi_black_down.png';
+					parent.down = true;
 				});
 				elem.bind('mouseup', function() {
 					elem[0].src = 'img/midi_black_up.png';
+					parent.down = false;
 				});
 				elem.bind('mouseleave', function() {
 					elem[0].src = 'img/midi_black_up.png';
+				});
+				elem.bind('mouseenter', function() {
+					if (parent.down)
+						elem[0].src = 'img/midi_black_down.png';
 				});
 			}
 		};

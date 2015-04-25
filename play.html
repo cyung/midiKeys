@@ -43,11 +43,11 @@
 					<img class="piano-back" ng-src={{draw.piano_back}} ng-repeat="t in draw.range(20) track by $index" draggable="false" style="left:{{$index*42}}px;"/>
 				</div>
 				<div class="white-key-container">
-					<img class="white-key" press-white-key ng-src={{draw.white_key}} ng-repeat="t in draw.range(56) track by $index" draggable="false" style="left:{{$index*14}}px;" />
+					<img class="white-key" press-white-key={{draw.obj}} ng-src={{draw.white_key}} ng-repeat="t in draw.range(56) track by $index" draggable="false" style="left:{{$index*14}}px;" />
 				</div>
 				<div class="black-key-container">
 					<div ng-repeat="key in draw.keys track by $index" ng-switch="key.black">
-						<img class = "black-key" press-black-key ng-switch-when="true" ng-src={{draw.black_key}} draggable="false" style="left:{{$index*14}}px;" />
+						<img class = "black-key" press-black-key={{draw.obj}} ng-switch-when="true" ng-src={{draw.black_key}} draggable="false" style="left:{{$index*14}}px;" />
 					</div>
 				</ul>
 			</div>

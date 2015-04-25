@@ -63,7 +63,7 @@ angular.module('app')
 	.directive('pressWhiteKey', [ function () {
 		return {
 			link: function (scope, elem, attrs) {
-				var parent = scope.$parent.$parent;
+				var parent = scope.$root;
 				parent.down = false;
 				elem.bind('mousedown', function() {
 					elem[0].src = 'img/midi_white_down.png';
@@ -87,7 +87,7 @@ angular.module('app')
 	.directive('pressBlackKey', [ function () {
 		return {
 			link: function (scope, elem, attrs) {
-				var parent = scope.$parent.$parent.$parent;
+				var parent = scope.$root;
 				parent.down = false;
 				elem.bind('mousedown', function() {
 					elem[0].src = 'img/midi_black_down.png';

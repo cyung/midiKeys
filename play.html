@@ -46,15 +46,26 @@
 				</ul>
 				<ul class="white-keys">
 					<li ng-repeat="t in draw.range(56) track by $index">
-						<img ng-src={{draw.white_key}} />
+						<img press-white-key ng-src={{draw.white_key}} draggable="false" />
 					</li>
 				</ul>
 				<ul class="black-keys">
 					<li ng-repeat="key in draw.keys" ng-switch="key.black">
-						<img ng-switch-when="true" ng-src={{draw.black_key}}  />
+						<img press-black-key ng-switch-when="true" ng-src={{draw.black_key}} draggable="false" />
 						<img ng-switch-when="false" ng-src={{draw.black_key}} class="black-hidden" />
 					</li>
 				</ul>
+<!-- 				<ul class="black-keys">
+					<li ng-repeat="key in draw.keys2" ng-switch="key.next_key">
+						<img ng-switch-when="true" ng-src={{draw.black_key}} />
+						<img ng-switch-when="false" ng-src={{draw.black_key}} class="has-next-key" />
+					</li>
+				</ul> -->
+<!-- 				<ul class="black-keys">
+					<li ng-repeat="key in draw.keys2" ng-class="{'has-next-key': !key.next_key}">
+						<img ng-src={{draw.black_key}} />
+					</li>
+				</ul> -->
 			</div>
 		</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>

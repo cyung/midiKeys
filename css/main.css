@@ -71,7 +71,7 @@
   .white-keys li {
     margin-top: 60px; }
     .white-keys li:first-child {
-      margin-left: 18px; }
+      margin-left: 19px; }
 
 .black-keys {
   position: absolute;
@@ -87,12 +87,22 @@
     margin-top: 65px;
     margin-right: 5px; }
     .black-keys li:first-child {
-      margin-left: 28px; }
+      margin-left: 29px; }
 
 .black-hidden {
   visibility: hidden; }
 
 .piano {
   width: 960px; }
+
+.has-next-key {
+  margin-left: 14px; }
+
+.piano {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none; }
 
 /*# sourceMappingURL=main.css.map */

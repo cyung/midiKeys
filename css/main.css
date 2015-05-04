@@ -88,4 +88,8 @@
   -o-user-select: none;
   user-select: none; }
 
+.select-midi {
+  margin: -40px 0 50px 55px;
+  width: 400px; }
+
 /*# sourceMappingURL=main.css.map */

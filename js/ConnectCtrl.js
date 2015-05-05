@@ -123,8 +123,25 @@ angular.module('app')
         }
 
         function generateSounds() {
-            self.sounds = new Howl({
-                urls: ['sounds/PAdErr06.wav']
+            self.piano = new Wad({
+                source: 'square', 
+                volume: 0.5,
+                env: {
+                    attack : 0.01, 
+                    decay : 0.005, 
+                    sustain : 0.2, 
+                    // hold : 0.015, 
+                    // release : 0.3
+                }, 
+                filter: {
+                    type : 'lowpass', 
+                    frequency : 1200, 
+                    q : 8.5, 
+                    env : {
+                        attack : 0.2, 
+                        frequency : 600
+                    }
+                }
             });
         }
     }]);

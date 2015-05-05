@@ -10,11 +10,11 @@ angular.module('app')
 		self.down = false;
 
 		self.keys = [];
-		var keyGroupOf3 = true;
+		var keyGroupOf3 = false;
 
 		self.keys.push({black: true}); // first key is shown
 		var i = 1;
-		while (i < 54) {
+		while (i < 48) {
 			self.keys.push({black: false});
 			// always followed by at least two
 			self.keys.push({black: true});
@@ -46,7 +46,7 @@ angular.module('app')
 			}
 			keyGroupOf3 = !keyGroupOf3;
 		}
-		// console.log(self.keys2);
+		console.log(self.keys2.length);
 
 		self.range = function(num) {
 			return new Array(num);

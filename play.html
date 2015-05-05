@@ -32,27 +32,52 @@
 				</form>
 			</div>
 		</nav>
-		<div class="container">
+<!-- 		<div class="container">
 			<div class="jumbotron">
 				<h1>MIDI keyboard</h1>
 			</div>
-		</div>
+		</div> -->
 		<div class="container piano" ng-app="app">
-			<div class="select-midi" ng-controller="ConnectCtrl">
-				<select ng-model="activeDevice" class="form-control" ng-options="device.manufacturer + ' ' + device.name for device in devices">
-				    <option value="" disabled>Choose a MIDI device...</option>
-				</select>
-			</div>
-			<div ng-controller="DrawCtrl as draw">
-				<div class="piano-back-container">
-					<img class="piano-back" ng-src={{draw.piano_back}} ng-repeat="t in draw.range(20) track by $index" draggable="false" style="left:{{$index*42}}px;"/>
-				</div>
-				<div class="white-key-container">
-					<img class="white-key" press-white-key={{draw.obj}} ng-src={{draw.white_key}} ng-repeat="t in draw.range(56) track by $index" draggable="false" style="left:{{$index*14}}px;" />
-				</div>
-				<div class="black-key-container">
-					<div ng-repeat="key in draw.keys track by $index" ng-switch="key.black">
-						<img class = "black-key" press-black-key={{draw.obj}} ng-switch-when="true" ng-src={{draw.black_key}} draggable="false" style="left:{{$index*14}}px;" />
+			<div ng-controller="ConnectCtrl as conn">
+				<div ng-controller="DrawCtrl as draw">
+					<div class="jumbotron">
+						<h1 class="col-xs-12">MIDI keyboard</h1>
+						<select class="select-midi" ng-model="activeDevice" class="form-control" ng-options="device.manufacturer + ' ' + device.name for device in conn.devices">
+						    <option value="" disabled>Available MIDI devices</option>
+						</select>
+						<div class="piano-back-container">
+							<img class="piano-back" ng-src={{draw.piano_back}} ng-repeat="t in draw.range(21) track by $index" draggable="false" style="left:{{$index*37}}px;"/>
+						</div>
+						<div class="white-key-container">
+							<img
+								class="white-key"
+								press-white-key
+								ng-src={{draw.white_key}}
+								ng-repeat="t in draw.range(52) track by $index"
+								draggable="false"
+								style="left:{{$index*14}}px;"
+								index="{{$index}}"
+								key-map="conn.key_map"
+								index-white="conn.index_white"
+								sounds="conn.sounds"
+							/>
+						</div>
+						<div class="black-key-container">
+							<div ng-repeat="key in draw.keys track by $index" ng-switch="key.black">
+								<img
+									class="black-key"
+									press-black-key
+									ng-switch-when="true"
+									ng-src={{draw.black_key}}
+									draggable="false"
+									style="left:{{$index*14}}px;"
+									index="{{$index}}"
+									key-map="conn.key_map"
+									index-black="conn.index_black"
+									sounds="conn.sounds"
+								/>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -64,5 +89,7 @@
 	<script src="js/ConnectCtrl.js"></script>
 	<script src="js/midi.js"></script>
 	<script src="js/inputDirective.js"></script>
+	<script src="js/howler.min.js"></script>
+	<script src="js/wad.min.js"></script>
 
 </html>

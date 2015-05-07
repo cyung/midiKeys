@@ -123,15 +123,32 @@ angular.module('app')
         }
 
         function generateSounds() {
-            self.piano = new Wad({
-                source: 'square', 
+            Wad.midiInstrument = new Wad({
+                source: 'sawtooth', 
                 volume: 0.5,
                 env: {
-                    attack : 0.01, 
+                    attack : 0.3, 
                     decay : 0.005, 
-                    sustain : 0.2, 
+                    // sustain : 0.2, 
                     // hold : 0.015, 
                     // release : 0.3
+                }, 
+                filter: {
+                    type : 'lowpass', 
+                    frequency : 1200, 
+                    q : 8.5, 
+                    env : {
+                        attack : 0.3, 
+                        frequency : 600
+                    }
+                }
+            });
+            self.piano = new Wad({
+                source: 'sawtooth', 
+                volume: 0.5,
+                env: {
+                    attack : 0.3, 
+                    decay : 0.005, 
                 }, 
                 filter: {
                     type : 'lowpass', 

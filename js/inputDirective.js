@@ -11,14 +11,16 @@ angular.module('app')
 			link: function (scope, elem, attrs) {
 				var key_index = scope.indexWhite[scope.index].toString();
 				var pitch = 440 * Math.pow(2, (key_index - 69) / 12);
+				
 				scope.$watch('keyMap', function(newVal, oldVal) {
 					if (scope.keyMap.hasOwnProperty(key_index)) {
 						if (scope.keyMap[key_index])
-							keyDown();
+							elem[0].src = 'img/midi_white_down.png';
 						else
-							keyUp();
+							elem[0].src = 'img/midi_white_up.png';
 					}
 				}, true);
+
 				elem.bind('mousedown', function() {
 					keyDown();
 					scope.$root.down = true;
@@ -63,13 +65,14 @@ angular.module('app')
 			link: function (scope, elem, attrs) {
 				var key_index = scope.indexBlack[scope.index].toString();
 				var pitch = 440 * Math.pow(2, (key_index - 69) / 12);
+				
 				scope.$watch('keyMap', function(newVal, oldVal) {
 					if (scope.keyMap.hasOwnProperty(key_index)) {
 						if (scope.keyMap[key_index]){
-							keyDown();
+							elem[0].src = 'img/midi_black_down.png';
 						}
 						else
-							keyUp();
+							elem[0].src = 'img/midi_black_up.png';
 					}
 				}, true);
 

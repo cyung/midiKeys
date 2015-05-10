@@ -6,6 +6,7 @@ angular.module('app')
         self.down_num = 144;
         self.up_num = 128;
         self.key_map = [];
+        self.key_vel = [];
 
         generateMapping();
         // testSound();
@@ -37,6 +38,7 @@ angular.module('app')
                         if (input.name === 'Q49'){ // alesis Q49
                             if (key_state === self.down_num){
                                 self.key_map[key_num] = true;
+                                self.key_vel[key_num] = key_vel;
                                 $scope.$apply();
                             } else {
                                 self.key_map[key_num] = false;
@@ -66,8 +68,10 @@ angular.module('app')
 
         function generateMapping() {
             // fill key_map array with false
-            for (var i=0; i<=108; i++)
+            for (var i=0; i<=108; i++){
                 self.key_map.push(false);
+                self.key_vel.push(0);
+            }
 
             // generate midi numbers for white keys from C1 to C5
             var map_white = [];

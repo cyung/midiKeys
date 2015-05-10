@@ -4,6 +4,7 @@ angular.module('app')
 			scope: {
 				index: '@',
 				keyMap: '=',
+				keyVel: '=',
 				indexWhite: '='
 			},
 			link: function (scope, elem, attrs) {
@@ -20,20 +21,26 @@ angular.module('app')
 				});
 				sound.play();
 				var down = false;
+				var key_vel;
 				
 				scope.$watch('keyMap[' + key_index + ']', function(newVal, oldVal) {
 					if (scope.keyMap[key_index] && !down){
-						keyDown();
-						down = true;
+						key_vel = scope.keyVel[key_index];
+						key_vel /= 127; // normalize to [0,1]
+						// key_vel *= 0.3; // normalize to [0,0.3]
+						if (key_index < 60) {
+							console.log(key_index);
+							key_vel *= 0.5;
+						}
+						keyDown(key_vel);
 					}
 					else if (down) {
 						keyUp();
-						down = false;
 					}
 				}, true);
 
 				elem.bind('mousedown', function() {
-					keyDown();
+					keyDown(0.3);
 					scope.$root.down = true;
 				});
 				elem.bind('mouseup', function() {
@@ -45,16 +52,21 @@ angular.module('app')
 				});
 				elem.bind('mouseenter', function() {
 					if (scope.$root.down)
-						keyDown();
+						keyDown(0.3);
 				});
 
-				function keyDown() {
+				function keyDown(velocity) {
+					down = true;
+					sound.stop();
+					sound.volume(velocity);
 					sound.play();
 					elem[0].src = 'img/midi_white_down.png';
 				}
 
 				function keyUp() {
-					sound.stop();
+					if (down)
+						sound.fade(0.3,0,50);
+					down = false;
 					elem[0].src = 'img/midi_white_up.png';
 				}
 			}
@@ -66,6 +78,7 @@ angular.module('app')
 			scope: {
 				index: '@',
 				keyMap: '=',
+				keyVel: '=',
 				indexBlack: '='
 			},
 			link: function (scope, elem, attrs) {
@@ -81,20 +94,22 @@ angular.module('app')
 					}
 				});
 				var down = false;
+				var key_vel;
 
 				scope.$watch('keyMap[' + key_index + ']', function(newVal, oldVal) {
 					if (scope.keyMap[key_index] && !down){
-						keyDown();
-						down = true;
+						key_vel = scope.keyVel[key_index];
+						key_vel /= 127; // normalize to [0,1]
+						// key_vel *= 0.3; // normalize to [0,0.3]
+						keyDown(key_vel);
 					}
 					else if (down) {
 						keyUp();
-						down = false;
 					}
 				}, true);
 
 				elem.bind('mousedown', function() {
-					keyDown();
+					keyDown(0.3);
 					scope.$root.down = true;
 				});
 				elem.bind('mouseup', function() {
@@ -106,16 +121,21 @@ angular.module('app')
 				});
 				elem.bind('mouseenter', function() {
 					if (scope.$root.down)
-						keyDown();
+						keyDown(0.3);
 				});
 
-				function keyDown() {
+				function keyDown(velocity) {
+					down = true;
+					sound.stop();
+					sound.volume(velocity);
 					sound.play();
 					elem[0].src = 'img/midi_black_down.png';
 				}
 
 				function keyUp() {
-					sound.stop();
+					if (down)
+						sound.fade(0.3,0,50);
+					down = false;
 					elem[0].src = 'img/midi_black_up.png';
 				}
 			}

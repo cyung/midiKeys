@@ -11,10 +11,12 @@ angular.module('app')
 				var key_index = scope.indexWhite[scope.index].toString();
 				// var pitch = 440 * Math.pow(2, (key_index - 69) / 12);
 				var filename = 'sounds/piano-' + key_index + '.mp3';
-				filename = 'sounds/toss.wav';
 				var sound = new Howl({
 					urls: [filename],
-					volume: 0.3
+					volume: 0.3,
+					onloaderror: function() {
+						console.log('Error!');
+					}
 				});
 				var down = false;
 				

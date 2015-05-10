@@ -13,7 +13,7 @@ angular.module('app')
 				var filename = 'sounds/piano-' + key_index + '.mp3';
 				var sound = new Howl({
 					urls: [filename],
-					volume: 0.3
+					// volume: 0.3
 				});
 				var down = false;
 				

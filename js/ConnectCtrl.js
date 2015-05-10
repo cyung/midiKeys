@@ -106,7 +106,7 @@ angular.module('app')
                 i+=3;
                 map_black.push(0);
             }
-            console.log(map_black);
+            // console.log(map_black);
             
             self.index_white = [];
             self.index_black = [];

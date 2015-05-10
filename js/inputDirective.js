@@ -9,7 +9,7 @@ angular.module('app')
 			},
 			link: function (scope, elem, attrs) {
 				var key_index = scope.indexWhite[scope.index].toString();
-				var pitch = 440 * Math.pow(2, (key_index - 69) / 12);
+				// var pitch = 440 * Math.pow(2, (key_index - 69) / 12);
 				var filename = 'sounds/piano-' + key_index + '.mp3';
 				var sound = new Howl({
 					urls: [filename],
@@ -47,6 +47,7 @@ angular.module('app')
 				});
 
 				function keyDown() {
+					console.log('down');
 					elem[0].src = 'img/midi_white_down.png';
 					sound.play();
 				}
@@ -65,12 +66,11 @@ angular.module('app')
 				index: '@',
 				keyMap: '=',
 				indexBlack: '=',
-				sounds: '=',
-				piano: '='
+				sounds: '='
 			},
 			link: function (scope, elem, attrs) {
 				var key_index = scope.indexBlack[scope.index].toString();
-				var pitch = 440 * Math.pow(2, (key_index - 69) / 12);
+				// var pitch = 440 * Math.pow(2, (key_index - 69) / 12);
 				var filename = 'sounds/piano-' + key_index + '.mp3';
 				var sound = new Howl({
 					urls: [filename],

@@ -4,8 +4,7 @@ angular.module('app')
 			scope: {
 				index: '@',
 				keyMap: '=',
-				indexWhite: '=',
-				sounds: '=',
+				indexWhite: '='
 			},
 			link: function (scope, elem, attrs) {
 				var key_index = scope.indexWhite[scope.index].toString();
@@ -22,14 +21,12 @@ angular.module('app')
 				sound.play();
 				var down = false;
 				
-				scope.$watch('keyMap', function(newVal, oldVal) {
-					if (scope.keyMap[key_index]){
-						if (!down){
-							keyDown();
-							down = true;
-						}
+				scope.$watch('keyMap[' + key_index + ']', function(newVal, oldVal) {
+					if (scope.keyMap[key_index] && !down){
+						keyDown();
+						down = true;
 					}
-					else{
+					else if (down) {
 						keyUp();
 						down = false;
 					}
@@ -52,14 +49,13 @@ angular.module('app')
 				});
 
 				function keyDown() {
-					console.log('down');
-					elem[0].src = 'img/midi_white_down.png';
 					sound.play();
+					elem[0].src = 'img/midi_white_down.png';
 				}
 
 				function keyUp() {
-					elem[0].src = 'img/midi_white_up.png';
 					sound.stop();
+					elem[0].src = 'img/midi_white_up.png';
 				}
 			}
 		};
@@ -70,8 +66,7 @@ angular.module('app')
 			scope: {
 				index: '@',
 				keyMap: '=',
-				indexBlack: '=',
-				sounds: '='
+				indexBlack: '='
 			},
 			link: function (scope, elem, attrs) {
 				var key_index = scope.indexBlack[scope.index].toString();
@@ -87,14 +82,12 @@ angular.module('app')
 				});
 				var down = false;
 
-				scope.$watch('keyMap', function(newVal, oldVal) {
-					if (scope.keyMap[key_index]){
-						if (!down){
-							keyDown();
-							down = true;
-						}
+				scope.$watch('keyMap[' + key_index + ']', function(newVal, oldVal) {
+					if (scope.keyMap[key_index] && !down){
+						keyDown();
+						down = true;
 					}
-					else{
+					else if (down) {
 						keyUp();
 						down = false;
 					}
@@ -117,13 +110,13 @@ angular.module('app')
 				});
 
 				function keyDown() {
-					elem[0].src = 'img/midi_black_down.png';
 					sound.play();
+					elem[0].src = 'img/midi_black_down.png';
 				}
 
 				function keyUp() {
-					elem[0].src = 'img/midi_black_up.png';
 					sound.stop();
+					elem[0].src = 'img/midi_black_up.png';
 				}
 			}
 		};

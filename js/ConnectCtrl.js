@@ -8,6 +8,7 @@ angular.module('app')
         self.key_map = [];
 
         generateMapping();
+        // testSound();
         // generateSounds();
 
         devices
@@ -128,6 +129,16 @@ angular.module('app')
             }
         }
 
+        function testSound() {
+            var sound = new Howl({
+                urls: ['sounds/toss.wav'],
+                volume: 0.3,
+                onloaderror: function() {
+                    console.log('Error loading file.');
+                }
+            });
+            sound.play();
+        }
         // function generateSounds() {
         //     Wad.midiInstrument = new Wad({
         //         source: 'sawtooth', 

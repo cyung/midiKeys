@@ -6,18 +6,27 @@ angular.module('app')
 				keyMap: '=',
 				indexWhite: '=',
 				sounds: '=',
-				piano: '='
 			},
 			link: function (scope, elem, attrs) {
 				var key_index = scope.indexWhite[scope.index].toString();
 				var pitch = 440 * Math.pow(2, (key_index - 69) / 12);
+				var filename = 'sounds/piano-' + key_index + '.mp3';
+				var sound = new Howl({
+					urls: [filename],
+					volume: 0.3
+				});
+				var down = false;
 				
 				scope.$watch('keyMap', function(newVal, oldVal) {
-					if (scope.keyMap.hasOwnProperty(key_index)) {
-						if (scope.keyMap[key_index])
-							elem[0].src = 'img/midi_white_down.png';
-						else
-							elem[0].src = 'img/midi_white_up.png';
+					if (scope.keyMap[key_index]){
+						if (!down){
+							keyDown();
+							down = true;
+						}
+					}
+					else{
+						keyUp();
+						down = false;
 					}
 				}, true);
 
@@ -39,15 +48,12 @@ angular.module('app')
 
 				function keyDown() {
 					elem[0].src = 'img/midi_white_down.png';
-					scope.piano.play({
-						pitch: pitch,
-						label: pitch.toString()
-					});
+					sound.play();
 				}
 
 				function keyUp() {
 					elem[0].src = 'img/midi_white_up.png';
-					scope.piano.stop(pitch.toString());
+					sound.stop();
 				}
 			}
 		};
@@ -65,14 +71,23 @@ angular.module('app')
 			link: function (scope, elem, attrs) {
 				var key_index = scope.indexBlack[scope.index].toString();
 				var pitch = 440 * Math.pow(2, (key_index - 69) / 12);
+				var filename = 'sounds/piano-' + key_index + '.mp3';
+				var sound = new Howl({
+					urls: [filename],
+					volume: 0.3
+				});
+				var down = false;
 
 				scope.$watch('keyMap', function(newVal, oldVal) {
-					if (scope.keyMap.hasOwnProperty(key_index)) {
-						if (scope.keyMap[key_index]){
-							elem[0].src = 'img/midi_black_down.png';
+					if (scope.keyMap[key_index]){
+						if (!down){
+							keyDown();
+							down = true;
 						}
-						else
-							elem[0].src = 'img/midi_black_up.png';
+					}
+					else{
+						keyUp();
+						down = false;
 					}
 				}, true);
 
@@ -81,7 +96,7 @@ angular.module('app')
 					scope.$root.down = true;
 				});
 				elem.bind('mouseup', function() {
-					elem[0].src = 'img/midi_black_up.png';
+					keyUp();
 					scope.$root.down = false;
 				});
 				elem.bind('mouseleave', function() {
@@ -94,15 +109,12 @@ angular.module('app')
 
 				function keyDown() {
 					elem[0].src = 'img/midi_black_down.png';
-					scope.piano.play({
-						pitch: pitch,
-						label: pitch.toString()
-					});
+					sound.play();
 				}
 
 				function keyUp() {
 					elem[0].src = 'img/midi_black_up.png';
-					scope.piano.stop(pitch.toString());
+					sound.stop();
 				}
 			}
 		};

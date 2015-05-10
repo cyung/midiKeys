@@ -46,7 +46,6 @@ angular.module('app')
 			}
 			keyGroupOf3 = !keyGroupOf3;
 		}
-		console.log(self.keys2.length);
 
 		self.range = function(num) {
 			return new Array(num);

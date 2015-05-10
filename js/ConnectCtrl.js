@@ -125,9 +125,9 @@ angular.module('app')
         function generateSounds() {
             Wad.midiInstrument = new Wad({
                 source: 'sawtooth', 
-                volume: 0.5,
+                volume: 0.3,
                 env: {
-                    attack : 0.3, 
+                    attack : 0.1, 
                     decay : 0.005, 
                     // sustain : 0.2, 
                     // hold : 0.015, 
@@ -145,7 +145,7 @@ angular.module('app')
             });
             self.piano = new Wad({
                 source: 'sawtooth', 
-                volume: 0.5,
+                volume: 0.1,
                 env: {
                     attack : 0.3, 
                     decay : 0.005, 

@@ -51,7 +51,7 @@ angular.module('app')
 				}
 			}
 		};
-	}])	
+	}])
 
 	.directive('pressBlackKey', [ function () {
 		return {
@@ -65,7 +65,7 @@ angular.module('app')
 			link: function (scope, elem, attrs) {
 				var key_index = scope.indexBlack[scope.index].toString();
 				var pitch = 440 * Math.pow(2, (key_index - 69) / 12);
-				
+
 				scope.$watch('keyMap', function(newVal, oldVal) {
 					if (scope.keyMap.hasOwnProperty(key_index)) {
 						if (scope.keyMap[key_index]){

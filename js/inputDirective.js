@@ -19,14 +19,15 @@ angular.module('app')
 						console.log('Error loading file.');
 					}
 				});
+				sound.play();
 				var down = false;
 				
 				scope.$watch('keyMap', function(newVal, oldVal) {
 					if (scope.keyMap[key_index]){
-						// if (!down){
+						if (!down){
 							keyDown();
-							// down = true;
-						// }
+							down = true;
+						}
 					}
 					else{
 						keyUp();

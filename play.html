@@ -45,38 +45,43 @@
 						<select class="select-midi" ng-model="activeDevice" class="form-control" ng-options="device.manufacturer + ' ' + device.name for device in conn.devices">
 						    <option value="" disabled>Available MIDI devices</option>
 						</select>
-						<div class="piano-back-container">
-							<img class="piano-back" ng-src={{draw.piano_back}} ng-repeat="t in draw.range(21) track by $index" draggable="false" style="left:{{$index*37}}px;"/>
-						</div>
-						<div class="white-key-container">
-							<img
-								class="white-key"
-								press-white-key
-								ng-src={{draw.white_key}}
-								ng-repeat="t in draw.range(52) track by $index"
-								draggable="false"
-								style="left:{{$index*14}}px;"
-								index="{{$index}}"
-								key-map="conn.key_map"
-								key-vel="conn.key_vel"
-								index-white="conn.index_white"
-							/>
-						</div>
-						<div class="black-key-container">
-							<div ng-repeat="key in draw.keys track by $index" ng-switch="key.black">
+						<div class="piano-container">
+							<div class="piano-back-container">
+								<img class="piano-back" ng-src={{draw.piano_back}} ng-repeat="t in draw.range(21) track by $index" draggable="false" style="left:{{$index*37}}px;"/>
+							</div>
+							<div class="white-key-container">
 								<img
-									class="black-key"
-									press-black-key
-									ng-switch-when="true"
-									ng-src={{draw.black_key}}
+									class="white-key"
+									press-white-key
+									ng-src={{draw.white_key}}
+									ng-repeat="t in draw.range(52) track by $index"
 									draggable="false"
 									style="left:{{$index*14}}px;"
 									index="{{$index}}"
 									key-map="conn.key_map"
 									key-vel="conn.key_vel"
-									index-black="conn.index_black"
+									index-white="conn.index_white"
 								/>
 							</div>
+							<div class="black-key-container">
+								<div ng-repeat="key in draw.keys track by $index" ng-switch="key.black">
+									<img
+										class="black-key"
+										press-black-key
+										ng-switch-when="true"
+										ng-src={{draw.black_key}}
+										draggable="false"
+										style="left:{{$index*14}}px;"
+										index="{{$index}}"
+										key-map="conn.key_map"
+										key-vel="conn.key_vel"
+										index-black="conn.index_black"
+									/>
+								</div>
+							</div>
+						</div>
+						<div class="display">
+							<span>Chord played: {{conn.chord}}</span>
 						</div>
 					</div>
 				</div>
@@ -90,6 +95,5 @@
 	<script src="js/midi.js"></script>
 	<script src="js/inputDirective.js"></script>
 	<script src="js/howler.min.js"></script>
-	<!-- <script src="js/wad.min.js"></script> -->
 
 </html>

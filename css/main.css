@@ -94,4 +94,17 @@
   margin-bottom: 50px;
   width: 400px; }
 
+.display, .piano-container {
+  display: block; }
+
+.piano-container {
+  height: 200px; }
+
+.display {
+  display: block;
+  text-align: center; }
+  .display span {
+    font-family: Roboto;
+    font-size: 30px; }
+
 /*# sourceMappingURL=main.css.map */

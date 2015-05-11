@@ -19,7 +19,7 @@ angular.module('app')
 						console.log('Error loading file.');
 					}
 				});
-				sound.play();
+				// sound.play();
 				var down = false;
 				var key_vel;
 				
@@ -28,10 +28,8 @@ angular.module('app')
 						key_vel = scope.keyVel[key_index];
 						key_vel /= 127; // normalize to [0,1]
 						// key_vel *= 0.3; // normalize to [0,0.3]
-						if (key_index < 60) {
-							console.log(key_index);
+						if (key_index < 60)
 							key_vel *= 0.5;
-						}
 						keyDown(key_vel);
 					}
 					else if (down) {
@@ -101,6 +99,8 @@ angular.module('app')
 						key_vel = scope.keyVel[key_index];
 						key_vel /= 127; // normalize to [0,1]
 						// key_vel *= 0.3; // normalize to [0,0.3]
+						if (key_index < 60)
+							key_vel *= 0.5;
 						keyDown(key_vel);
 					}
 					else if (down) {

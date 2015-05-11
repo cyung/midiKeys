@@ -7,8 +7,16 @@ angular.module('app')
         self.up_num = 128;
         self.key_map = [];
         self.key_vel = [];
+        self.key_history = [];
+        var keyh_index = 0;
+        self.major_chords = [];
+        self.major_chord_names = [];
+        self.minor_chords = [];
+        self.minor_chord_names = [];
+        self.chord = "";
 
         generateMapping();
+        generateChords();
         // testSound();
         // generateSounds();
 
@@ -35,20 +43,28 @@ angular.module('app')
                         var key_num = e.data[1];
                         var key_vel = e.data[2];
 
-                        if (input.name === 'Q49'){ // alesis Q49
+                        if (input.name === 'C.24') { // Miselu C.24
+                            if (key_state === 144) { // key down/up
+                                if (key_vel !== 0) {
+                                    self.key_map[key_num] = true;
+                                    self.key_vel[key_num] = key_vel;
+                                    self.key_history[keyh_index] = key_num % 12;
+                                    keyh_index = (keyh_index+1) % 3;
+                                    checkChord();
+                                    $scope.$apply();
+                                } else {
+                                    self.key_map[key_num] = false;
+                                    $scope.$apply();
+                                }
+                            }
+                        } else if (input.name === 'Q49' ||
+                            input.name === 'CASIO USB-MIDI') { // alesis Q49
                             if (key_state === self.down_num){
                                 self.key_map[key_num] = true;
                                 self.key_vel[key_num] = key_vel;
-                                $scope.$apply();
-                            } else {
-                                self.key_map[key_num] = false;
-                                $scope.$apply();
-                            }
-                        } else if (input.name === 'C.24') { // Miselu C.24
-                            if (key_num === 0)
-                                return;
-                            if (key_vel !== 0) {
-                                self.key_map[key_num] = true;
+                                self.key_history[keyh_index] = key_num % 12;
+                                keyh_index = (keyh_index+1) % 3;
+                                checkChord();
                                 $scope.$apply();
                             } else {
                                 self.key_map[key_num] = false;
@@ -143,43 +159,75 @@ angular.module('app')
             });
             sound.play();
         }
-        // function generateSounds() {
-        //     Wad.midiInstrument = new Wad({
-        //         source: 'sawtooth', 
-        //         volume: 0.3,
-        //         env: {
-        //             attack : 0.1, 
-        //             decay : 0.005, 
-        //             // sustain : 0.2, 
-        //             // hold : 0.015, 
-        //             // release : 0.3
-        //         }, 
-        //         filter: {
-        //             type : 'lowpass', 
-        //             frequency : 1200, 
-        //             q : 8.5, 
-        //             env : {
-        //                 attack : 0.3, 
-        //                 frequency : 600
-        //             }
-        //         }
-        //     });
-        //     self.piano = new Wad({
-        //         source: 'sawtooth', 
-        //         volume: 0.1,
-        //         env: {
-        //             attack : 0.3, 
-        //             decay : 0.005, 
-        //         }, 
-        //         filter: {
-        //             type : 'lowpass', 
-        //             frequency : 1200, 
-        //             q : 8.5, 
-        //             env : {
-        //                 attack : 0.2, 
-        //                 frequency : 600
-        //             }
-        //         }
-        //     });
-        // }
+
+        function generateChords() {
+            var i;
+            for (i=0;i<3;i++)
+                self.key_history.push(0);
+
+
+            // MIDI MAPPING
+            // 0 C      6  F#
+            // 1 C#     7  G
+            // 2 D      8  G#
+            // 3 D#     9  A
+            // 4 E      10 A#
+            // 5 F      11 B
+            var root, third, fifth;
+            for (i=0;i<12;i++) {
+                root = i;
+                third = (i+4) % 12;
+                fifth = (i+7) % 12;
+                self.major_chords.push([root, third, fifth]);
+            }
+
+            for (i=0;i<12;i++) {
+                root = i;
+                third = (i+3) % 12;
+                fifth = (i+7) % 12;
+                self.minor_chords.push([root, third, fifth]);
+            }
+
+            var notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#',
+                'A', 'A#', 'B'];
+
+            var major_chord, minor_chord;
+            for (i=0; i<12; i++) {
+                major_chord = notes[i] + ' Major';
+                self.major_chord_names.push(major_chord);
+                minor_chord = notes[i] + ' Minor';
+                self.minor_chord_names.push(minor_chord);
+            }
+        }
+
+        function checkChord() {
+            var i, j;
+            var history = self.key_history.slice(-3);
+            var sortNum = function(a,b) {
+                return a-b;
+            }
+            history.sort(sortNum);
+
+            for (i=0; i<12; i++) {
+                if (compareNotes(history, self.major_chords[i].sort(sortNum))){
+                    self.chord = self.major_chord_names[i];
+                    return;
+                }
+                if (compareNotes(history, self.minor_chords[i].sort(sortNum))){
+                    self.chord = self.minor_chord_names[i];
+                    return;
+                }
+            }
+
+            self.chord = "";
+        }
+
+        function compareNotes(history, chord) {
+            for (var i=0; i<history.length; i++) {
+                if (history[i] !== chord[i])
+                    return false;
+            }
+            return true;
+        }
+
     }]);

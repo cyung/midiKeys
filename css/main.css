@@ -107,6 +107,9 @@
     font-family: Roboto;
     font-size: 30px;
     display: block; }
+  .display h1 {
+    position: absolute;
+    margin-left: 260px; }
 
 .quiz {
   margin-top: 100px;

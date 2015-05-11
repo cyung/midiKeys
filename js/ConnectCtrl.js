@@ -30,6 +30,9 @@ angular.module('app')
         self.chord = "";
         self.scale = "";
 
+        self.quiz_chord = "";
+        self.quiz_scale = "";
+
         // set size for buffer
         clearHistory();
 
@@ -37,7 +40,8 @@ angular.module('app')
         generateChords();
         generateScales();
         sortArrays();
-        self.quiz_chord = self.major_chord_names[Math.floor(Math.random()*12)];
+        checkChordQuiz();
+        checkScaleQuiz();
 
         devices
             .connect()
@@ -326,8 +330,7 @@ angular.module('app')
             } else {
                 return;
             }
-            // checkScaleQuiz();
-            return;
+            checkScaleQuiz();
          }
 
         function clearHistory() {
@@ -394,6 +397,22 @@ angular.module('app')
                     self.quiz_chord = self.major_chord_names[Math.floor(Math.random()*12)];
                 else
                     self.quiz_chord = self.minor_chord_names[Math.floor(Math.random()*12)];
+            }
+        }
+
+        function checkScaleQuiz() {
+            if (self.scale === self.quiz_scale) {
+                var mode = Math.floor(Math.random() * 7);
+                var choice = Math.floor(Math.random() * 12);
+                switch (mode) {
+                    case 0: self.quiz_scale = self.scale_ionian_names[choice];     break;
+                    case 1: self.quiz_scale = self.scale_dorian_names[choice];     break;
+                    case 2: self.quiz_scale = self.scale_phrygian_names[choice];   break;
+                    case 3: self.quiz_scale = self.scale_lydian_names[choice];     break;
+                    case 4: self.quiz_scale = self.scale_mixolydian_names[choice]; break;
+                    case 5: self.quiz_scale = self.scale_aeolian_names[choice];    break;
+                    case 6: self.quiz_scale = self.scale_locrian_names[choice];    break;
+                }
             }
         }
 

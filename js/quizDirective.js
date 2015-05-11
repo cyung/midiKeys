@@ -1,5 +1,5 @@
 angular.module('app')
-	.directive('quiz', [function () {
+	.directive('practiceChord', [function () {
 		return {
 			restrict: 'AE',
 			scope: {
@@ -7,6 +7,19 @@ angular.module('app')
 				quizChord: '='
 			},
 			template: '<span>{{quizChord}}</span>',
+			link: function (scope, elem, attrs) {
+				
+			}
+		};
+	}])
+	.directive('practiceScale', [function () {
+		return {
+			restrict: 'AE',
+			scope: {
+				scale: '=',
+				quizScale: '='
+			},
+			template: '<span>{{quizScale}}</span>',
 			link: function (scope, elem, attrs) {
 				
 			}

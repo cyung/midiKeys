@@ -117,6 +117,9 @@
   .quiz span {
     font-family: Roboto;
     font-size: 30px;
-    display: block; }
+    display: block;
+    margin-bottom: 20px; }
+  .quiz p {
+    margin-bottom: 0; }
 
 /*# sourceMappingURL=main.css.map */

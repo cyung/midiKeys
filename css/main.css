@@ -105,6 +105,7 @@
   text-align: center; }
   .display span {
     font-family: Roboto;
-    font-size: 30px; }
+    font-size: 30px;
+    display: block; }
 
 /*# sourceMappingURL=main.css.map */

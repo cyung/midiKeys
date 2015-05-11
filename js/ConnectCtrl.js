@@ -1,5 +1,5 @@
 angular.module('app')
-    .controller('ConnectCtrl', ['$scope', 'Devices', function($scope, devices) {
+    .controller('ConnectCtrl', ['$scope', '$interval', 'Devices', function($scope, $interval, devices) {
         var self = this;
         self.devices = [];
         // Alesis Q49
@@ -13,10 +13,31 @@ angular.module('app')
         self.major_chord_names = [];
         self.minor_chords = [];
         self.minor_chord_names = [];
+        self.scale_ionian = [];
+        self.scale_ionian_names = [];
+        self.scale_dorian = [];
+        self.scale_dorian_names = [];
+        self.scale_phrygian = [];
+        self.scale_phrygian_names = [];
+        self.scale_lydian = [];
+        self.scale_lydian_names = [];
+        self.scale_mixolydian = [];
+        self.scale_mixolydian_names = [];
+        self.scale_aeolian = [];
+        self.scale_aeolian_names = [];
+        self.scale_locrian = [];
+        self.scale_locrian_names = [];
+
         self.chord = "";
+        self.scale = "";
+
+        // set size for buffer
+        clearHistory();
 
         generateMapping();
         generateChords();
+        generateScales();
+        sortArrays();
         // testSound();
         // generateSounds();
 
@@ -37,21 +58,24 @@ angular.module('app')
 
 
                 self.inputs = access.inputs;
+                var stop;
                 angular.forEach(access.inputs, function(input) {
                     input.onmidimessage = function(e) {
                         var key_state = e.data[0];
                         var key_num = e.data[1];
                         var key_vel = e.data[2];
+                        if (angular.isDefined(stop)) {
+                            $interval.cancel(stop);
+                            stop = undefined;
+                        }
+                        stop  = $interval(function() {
+                            clearHistory();
+                        }, 1000);
 
                         if (input.name === 'C.24') { // Miselu C.24
                             if (key_state === 144) { // key down/up
                                 if (key_vel !== 0) {
-                                    self.key_map[key_num] = true;
-                                    self.key_vel[key_num] = key_vel;
-                                    self.key_history[keyh_index] = key_num % 12;
-                                    keyh_index = (keyh_index+1) % 3;
-                                    checkChord();
-                                    $scope.$apply();
+                                    keyDown(key_num, key_vel);
                                 } else {
                                     self.key_map[key_num] = false;
                                     $scope.$apply();
@@ -60,12 +84,7 @@ angular.module('app')
                         } else if (input.name === 'Q49' ||
                             input.name === 'CASIO USB-MIDI') { // alesis Q49
                             if (key_state === self.down_num){
-                                self.key_map[key_num] = true;
-                                self.key_vel[key_num] = key_vel;
-                                self.key_history[keyh_index] = key_num % 12;
-                                keyh_index = (keyh_index+1) % 3;
-                                checkChord();
-                                $scope.$apply();
+                                keyDown(key_num, key_vel);
                             } else {
                                 self.key_map[key_num] = false;
                                 $scope.$apply();
@@ -81,6 +100,18 @@ angular.module('app')
                 console.error(e);
             });
 
+
+        function keyDown(key_num, key_vel) {
+            self.key_map[key_num] = true;
+            self.key_vel[key_num] = key_vel;
+            self.key_history.push(key_num % 12);
+            if (self.key_history.length > 20)
+                self.key_history.shift();
+            checkChord();
+            checkScale();
+            checkChris();
+            $scope.$apply();
+        }
 
         function generateMapping() {
             // fill key_map array with false
@@ -161,11 +192,6 @@ angular.module('app')
         }
 
         function generateChords() {
-            var i;
-            for (i=0;i<3;i++)
-                self.key_history.push(0);
-
-
             // MIDI MAPPING
             // 0 C      6  F#
             // 1 C#     7  G
@@ -173,6 +199,7 @@ angular.module('app')
             // 3 D#     9  A
             // 4 E      10 A#
             // 5 F      11 B
+            var i;
             var root, third, fifth;
             for (i=0;i<12;i++) {
                 root = i;
@@ -191,38 +218,167 @@ angular.module('app')
             var notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#',
                 'A', 'A#', 'B'];
 
-            var major_chord, minor_chord;
             for (i=0; i<12; i++) {
-                major_chord = notes[i] + ' Major';
-                self.major_chord_names.push(major_chord);
-                minor_chord = notes[i] + ' Minor';
-                self.minor_chord_names.push(minor_chord);
+                self.major_chord_names.push(notes[i] + ' Major');
+                self.minor_chord_names.push(notes[i] + ' Minor');
             }
+        }
+
+        function generateScales() {
+            var i, j, n1, n2, n3, n4, n5, n6, n7;
+            
+            for (i=0; i<12; i++) {
+                // set the intervals
+                n1  = i;
+                n1b = (i+1)  % 12;
+                n2b = (i+1)  % 12;
+                n2  = (i+2)  % 12;
+                n2s = (i+3)  % 12;
+                n3b = (i+3)  % 12;
+                n3  = (i+4)  % 12;
+                n4  = (i+5)  % 12;
+                n4s = (i+6)  % 12;
+                n5b = (i+6)  % 12;
+                n5  = (i+7)  % 12;
+                n5s = (i+8)  % 12;
+                n6b = (i+8)  % 12;
+                n6  = (i+9)  % 12;
+                n6s = (i+10) % 12;
+                n7b = (i+10) % 12;
+                n7  = (i+11) % 12;
+
+                self.scale_ionian     .push([n1 , n2  , n3  , n4  , n5  , n6  , n7, n1]);
+                self.scale_dorian     .push([n1 , n2  , n3b , n4  , n5  , n6  , n7b, n1]);
+                self.scale_phrygian   .push([n1 , n2b , n3b , n4  , n5  , n6b , n7b, n1]);
+                self.scale_lydian     .push([n1 , n2  , n3  , n4s , n5  , n6  , n7, n1]);
+                self.scale_mixolydian .push([n1 , n2  , n3  , n4  , n5  , n6  , n7b, n1]);
+                self.scale_aeolian    .push([n1 , n2  , n3b , n4  , n5  , n6b , n7b, n1]);
+                self.scale_locrian    .push([n1 , n2b , n3b , n4  , n5b , n6b , n7b, n1]);
+            }
+
+            var notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#',
+                'A', 'A#', 'B'];
+
+            for (i=0; i<12; i++) {
+                self.scale_ionian_names     .push(notes[i] + ' Ionian');
+                self.scale_dorian_names     .push(notes[i] + ' Dorian');
+                self.scale_phrygian_names   .push(notes[i] + ' Phrygian');
+                self.scale_lydian_names     .push(notes[i] + ' Lydian');
+                self.scale_mixolydian_names .push(notes[i] + ' Mixolydian');
+                self.scale_aeolian_names    .push(notes[i] + ' Aeolian');
+                self.scale_locrian_names    .push(notes[i] + ' Locrian');
+            }
+
         }
 
         function checkChord() {
-            var i, j;
-            var history = self.key_history.slice(-3);
-            var sortNum = function(a,b) {
-                return a-b;
-            }
-            history.sort(sortNum);
-
-            for (i=0; i<12; i++) {
-                if (compareNotes(history, self.major_chords[i].sort(sortNum))){
-                    self.chord = self.major_chord_names[i];
-                    return;
-                }
-                if (compareNotes(history, self.minor_chords[i].sort(sortNum))){
-                    self.chord = self.minor_chord_names[i];
-                    return;
-                }
-            }
+            var i;
+            var history = getHistory(3, true);
 
             self.chord = "";
+            for (i=0; i<12; i++) {
+                if (compareNotes(history, self.major_chords[i]))
+                    self.chord += self.major_chord_names[i] + '\n';
+                if (compareNotes(history, self.minor_chords[i]))
+                    self.chord += self.minor_chord_names[i] + '\n';
+            }
+        }
+
+        function checkScale() {
+            var i, j;
+            var first_note = getHistory(8, false)[0];
+            var history = getHistory(8, true);
+            self.scale = "";
+            if (first_note === -1)
+                return;
+            if (compareNotes(history, self.scale_ionian[first_note])) {
+                self.scale = self.scale_ionian_names[first_note];
+                clearHistory();
+                return;
+            }
+            if (compareNotes(history, self.scale_dorian[first_note])) {
+                self.scale = self.scale_dorian_names[first_note];
+                clearHistory();
+                return;
+            }
+            if (compareNotes(history, self.scale_phrygian[first_note])) {
+                self.scale = self.scale_phrygian_names[first_note];
+                clearHistory();
+                return;
+            }
+            if (compareNotes(history, self.scale_lydian[first_note])) {
+                self.scale = self.scale_lydian_names[first_note];
+                clearHistory();
+                return;
+            }
+            if (compareNotes(history, self.scale_mixolydian[first_note])) {
+                self.scale = self.scale_mixolydian_names[first_note];
+                clearHistory();
+                return;
+            }
+            if (compareNotes(history, self.scale_aeolian[first_note])) {
+                self.scale = self.scale_aeolian_names[first_note];
+                clearHistory();
+                return;
+            }
+            if (compareNotes(history, self.scale_locrian[first_note])) {
+                self.scale = self.scale_locrian_names[first_note];
+                clearHistory();
+                return;
+            }
+        }
+
+        function clearHistory() {
+            self.key_history = [];
+            for (var j=0; j<20; j++)
+                self.key_history.push(-1);
+        }
+
+        function sortArrays() {
+            var sortNum = function(a,b) {
+                return a-b;
+            };
+            for (var i=0; i<12; i++) {
+                self.major_chords[i].sort(sortNum);
+                self.minor_chords[i].sort(sortNum);
+                self.scale_ionian[i].sort(sortNum);
+                self.scale_dorian[i].sort(sortNum);
+                self.scale_phrygian[i].sort(sortNum);
+                self.scale_lydian[i].sort(sortNum);
+                self.scale_mixolydian[i].sort(sortNum);
+                self.scale_aeolian[i].sort(sortNum);
+                self.scale_locrian[i].sort(sortNum);
+            }
+        }
+
+        function getHistory(num_notes, sorted) {
+            var history = self.key_history.slice(self.key_history.length-num_notes);
+            var sortNum = function(a,b) {
+                return a-b;
+            };
+            if (sorted)
+                history.sort(sortNum);
+            // remove duplicates
+            // history = history.filter(function(elem, index, self) {
+            //     return index == self.indexOf(elem);
+            // });
+            return history;
+        }
+
+        function checkChris() {
+            var password = [8, 9, 8, 7, 8, 1, 4, 3, 1, 3, 1, 0, 1, 4, 8];
+            var history = getHistory(password.length);
+
+            for (var i=0; i<password.length; i++) {
+                if (history[i] !== password[i])
+                    return;
+            }
+            self.greeting = "Hello Chris!";
         }
 
         function compareNotes(history, chord) {
+            if (history.length !== chord.length)
+                return false;
             for (var i=0; i<history.length; i++) {
                 if (history[i] !== chord[i])
                     return false;

@@ -85,10 +85,14 @@
 							<span>Scale played: {{conn.scale}}</span>
 							<h1>{{conn.greeting}}</h1>
 						</div>
-					</div>
-
-					<div class="practice">
-						
+						<div class="quiz">
+							<p>Practice: Play this chord!</p>
+							<quiz
+								chord="conn.chord"
+								quiz-chord="conn.quiz_chord"
+							>
+							</quiz>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -100,6 +104,7 @@
 	<script src="js/ConnectCtrl.js"></script>
 	<script src="js/midi.js"></script>
 	<script src="js/inputDirective.js"></script>
+	<script src="js/quizDirective.js"></script>
 	<script src="js/howler.min.js"></script>
 
 </html>

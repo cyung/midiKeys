@@ -2,7 +2,6 @@ angular.module('app')
     .controller('ConnectCtrl', ['$scope', '$interval', 'Devices', function($scope, $interval, devices) {
         var self = this;
         self.devices = [];
-        // Alesis Q49
         self.down_num = 144;
         self.up_num = 128;
         self.key_map = [];
@@ -38,8 +37,7 @@ angular.module('app')
         generateChords();
         generateScales();
         sortArrays();
-        // testSound();
-        // generateSounds();
+        self.quiz_chord = self.major_chord_names[Math.floor(Math.random()*12)];
 
         devices
             .connect()
@@ -247,13 +245,13 @@ angular.module('app')
                 n7b = (i+10) % 12;
                 n7  = (i+11) % 12;
 
-                self.scale_ionian     .push([n1 , n2  , n3  , n4  , n5  , n6  , n7, n1]);
-                self.scale_dorian     .push([n1 , n2  , n3b , n4  , n5  , n6  , n7b, n1]);
-                self.scale_phrygian   .push([n1 , n2b , n3b , n4  , n5  , n6b , n7b, n1]);
-                self.scale_lydian     .push([n1 , n2  , n3  , n4s , n5  , n6  , n7, n1]);
-                self.scale_mixolydian .push([n1 , n2  , n3  , n4  , n5  , n6  , n7b, n1]);
-                self.scale_aeolian    .push([n1 , n2  , n3b , n4  , n5  , n6b , n7b, n1]);
-                self.scale_locrian    .push([n1 , n2b , n3b , n4  , n5b , n6b , n7b, n1]);
+                self.scale_ionian     .push([n1 , n2  , n3  , n4  , n5  , n6  , n7  , n1]);
+                self.scale_dorian     .push([n1 , n2  , n3b , n4  , n5  , n6  , n7b , n1]);
+                self.scale_phrygian   .push([n1 , n2b , n3b , n4  , n5  , n6b , n7b , n1]);
+                self.scale_lydian     .push([n1 , n2  , n3  , n4s , n5  , n6  , n7  , n1]);
+                self.scale_mixolydian .push([n1 , n2  , n3  , n4  , n5  , n6  , n7b , n1]);
+                self.scale_aeolian    .push([n1 , n2  , n3b , n4  , n5  , n6b , n7b , n1]);
+                self.scale_locrian    .push([n1 , n2b , n3b , n4  , n5b , n6b , n7b , n1]);
             }
 
             var notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#',
@@ -277,11 +275,18 @@ angular.module('app')
 
             self.chord = "";
             for (i=0; i<12; i++) {
-                if (compareNotes(history, self.major_chords[i]))
-                    self.chord += self.major_chord_names[i] + '\n';
-                if (compareNotes(history, self.minor_chords[i]))
-                    self.chord += self.minor_chord_names[i] + '\n';
+                if (compareNotes(history, self.major_chords[i])) {
+                    self.chord = self.major_chord_names[i];
+                    break;
+                    // clearHistory();
+                }
+                if (compareNotes(history, self.minor_chords[i])) {
+                    self.chord = self.minor_chord_names[i];
+                    break;
+                    // clearHistory();
+                }
             }
+            checkChordQuiz();
         }
 
         function checkScale() {
@@ -294,39 +299,36 @@ angular.module('app')
             if (compareNotes(history, self.scale_ionian[first_note])) {
                 self.scale = self.scale_ionian_names[first_note];
                 clearHistory();
-                return;
             }
-            if (compareNotes(history, self.scale_dorian[first_note])) {
+            else if (compareNotes(history, self.scale_dorian[first_note])) {
                 self.scale = self.scale_dorian_names[first_note];
                 clearHistory();
-                return;
             }
-            if (compareNotes(history, self.scale_phrygian[first_note])) {
+            else if (compareNotes(history, self.scale_phrygian[first_note])) {
                 self.scale = self.scale_phrygian_names[first_note];
                 clearHistory();
-                return;
             }
-            if (compareNotes(history, self.scale_lydian[first_note])) {
+            else if (compareNotes(history, self.scale_lydian[first_note])) {
                 self.scale = self.scale_lydian_names[first_note];
                 clearHistory();
-                return;
             }
-            if (compareNotes(history, self.scale_mixolydian[first_note])) {
+            else if (compareNotes(history, self.scale_mixolydian[first_note])) {
                 self.scale = self.scale_mixolydian_names[first_note];
                 clearHistory();
-                return;
             }
-            if (compareNotes(history, self.scale_aeolian[first_note])) {
+            else if (compareNotes(history, self.scale_aeolian[first_note])) {
                 self.scale = self.scale_aeolian_names[first_note];
                 clearHistory();
-                return;
             }
-            if (compareNotes(history, self.scale_locrian[first_note])) {
+            else if (compareNotes(history, self.scale_locrian[first_note])) {
                 self.scale = self.scale_locrian_names[first_note];
                 clearHistory();
+            } else {
                 return;
             }
-        }
+            // checkScaleQuiz();
+            return;
+         }
 
         function clearHistory() {
             self.key_history = [];
@@ -384,6 +386,15 @@ angular.module('app')
                     return false;
             }
             return true;
+        }
+
+        function checkChordQuiz() {
+            if (self.chord === self.quiz_chord){
+                if (Math.random() > 0.5)
+                    self.quiz_chord = self.major_chord_names[Math.floor(Math.random()*12)];
+                else
+                    self.quiz_chord = self.minor_chord_names[Math.floor(Math.random()*12)];
+            }
         }
 
     }]);

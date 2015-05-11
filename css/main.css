@@ -108,4 +108,12 @@
     font-size: 30px;
     display: block; }
 
+.quiz {
+  margin-top: 100px;
+  text-align: center; }
+  .quiz span {
+    font-family: Roboto;
+    font-size: 30px;
+    display: block; }
+
 /*# sourceMappingURL=main.css.map */

@@ -12,6 +12,12 @@ angular.module('app')
         self.major_chord_names = [];
         self.minor_chords = [];
         self.minor_chord_names = [];
+        self.maj7_chords = [];
+        self.maj7_chord_names = [];
+        self.min7_chords = [];
+        self.min7_chord_names = [];
+        self.dom7_chords = [];
+        self.dom7_chord_names = [];
         self.scale_ionian = [];
         self.scale_ionian_names = [];
         self.scale_dorian = [];
@@ -202,19 +208,24 @@ angular.module('app')
             // 4 E      10 A#
             // 5 F      11 B
             var i;
-            var root, third, fifth;
+            var root, third, fifth, seventh;
             for (i=0;i<12;i++) {
                 root = i;
                 third = (i+4) % 12;
                 fifth = (i+7) % 12;
+                seventh = (i+11) % 12;
                 self.major_chords.push([root, third, fifth]);
+                self.maj7_chords.push([root, third, fifth, seventh]);
             }
 
             for (i=0;i<12;i++) {
                 root = i;
                 third = (i+3) % 12;
                 fifth = (i+7) % 12;
+                seventh = (i+10) % 12;
                 self.minor_chords.push([root, third, fifth]);
+                self.min7_chords.push([root, third, fifth, seventh]);
+                self.dom7_chords.push([root, ((third+1)%12), fifth, seventh]);
             }
 
             var notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#',
@@ -223,6 +234,9 @@ angular.module('app')
             for (i=0; i<12; i++) {
                 self.major_chord_names.push(notes[i] + ' Major');
                 self.minor_chord_names.push(notes[i] + ' Minor');
+                self.maj7_chord_names.push(notes[i] + 'Maj7');
+                self.dom7_chord_names.push(notes[i] + '7');
+                self.min7_chord_names.push(notes[i] + 'm7');
             }
         }
 
@@ -276,18 +290,25 @@ angular.module('app')
         function checkChord() {
             var i;
             var history = getHistory(3, true);
+            var history7 = getHistory(4, true);
 
             self.chord = "";
             for (i=0; i<12; i++) {
-                if (compareNotes(history, self.major_chords[i])) {
+                if (compareNotes(history7, self.dom7_chords[i])) {
+                    self.chord = self.dom7_chord_names[i];
+                    break;
+                } else if (compareNotes(history7, self.maj7_chords[i])) {
+                    self.chord = self.maj7_chord_names[i];
+                    break;
+                } else if (compareNotes(history7, self.min7_chords[i])) {
+                    self.chord = self.min7_chord_names[i];
+                    break;
+                } else if (compareNotes(history, self.major_chords[i])) {
                     self.chord = self.major_chord_names[i];
                     break;
-                    // clearHistory();
-                }
-                if (compareNotes(history, self.minor_chords[i])) {
+                } else if (compareNotes(history, self.minor_chords[i])) {
                     self.chord = self.minor_chord_names[i];
                     break;
-                    // clearHistory();
                 }
             }
             checkChordQuiz();
@@ -346,6 +367,9 @@ angular.module('app')
             for (var i=0; i<12; i++) {
                 self.major_chords[i].sort(sortNum);
                 self.minor_chords[i].sort(sortNum);
+                self.maj7_chords[i].sort(sortNum);
+                self.min7_chords[i].sort(sortNum);
+                self.dom7_chords[i].sort(sortNum);
                 self.scale_ionian[i].sort(sortNum);
                 self.scale_dorian[i].sort(sortNum);
                 self.scale_phrygian[i].sort(sortNum);

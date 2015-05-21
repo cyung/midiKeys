@@ -17,6 +17,8 @@
 
 .navbar {
   border: none; }
+  .navbar li a {
+    font-family: 'Lobster', cursive; }
 
 .container {
   max-width: 1000px;
@@ -101,6 +103,7 @@
   height: 200px; }
 
 .display {
+  margin-top: -40px;
   display: block;
   text-align: center; }
   .display span {
@@ -112,7 +115,6 @@
     margin-left: 260px; }
 
 .quiz {
-  margin-top: 100px;
   text-align: center; }
   .quiz span {
     font-family: Roboto;

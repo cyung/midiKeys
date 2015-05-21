@@ -21,7 +21,8 @@
 				</div>
 				<ul class="nav navbar-nav">
 					<li><a href="index.html">Home</a></li>
-					<li class="active"><a href="play.html">Play</a></li>
+					<li><a href="play.html">Play</a></li>
+					<li class="active"><a href="practice.html">Practice</a></li>
 					<li><a href="contact.html">Contact</a></li>
 				</ul>
 				<form action="" class="navbar-form navbar-right">
@@ -36,6 +37,14 @@
 			<div ng-controller="ConnectCtrl as conn">
 				<div ng-controller="DrawCtrl as draw">
 					<div class="jumbotron">
+					<div class="practice">
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-default">Chord</button>
+							<button type="button" class="btn btn-default">Scale</button>
+							<button type="button" class="btn btn-default">Intervals</button>
+							<button type="button" class="btn btn-default">Test</button>
+						</div>
+					</div>
 						<h1 class="col-xs-12">MIDI keyboard</h1>
 						<select class="select-midi" ng-model="activeDevice" class="form-control" ng-options="device.manufacturer + ' ' + device.name for device in conn.devices">
 						    <option value="" disabled>Available MIDI devices</option>

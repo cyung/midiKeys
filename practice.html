@@ -8,6 +8,14 @@
 		<link rel="stylesheet" href="css/bootstrap.css">
 		<link rel="stylesheet" href="css/main.css">
 		<link href='http://fonts.googleapis.com/css?family=Poiret+One|Roboto|Lora|Lobster' rel='stylesheet' type='text/css'>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+		<script src="app/app.js"></script>
+		<script src="app/controllers/DrawCtrl.js"></script>
+		<script src="app/controllers/ConnectCtrl.js"></script>
+		<script src="app/lib/midi.js"></script>
+		<script src="app/directives/inputDirective.js"></script>
+		<script src="app/directives/quizDirective.js"></script>
+		<script src="app/lib/howler.min.js"></script>
 	</head>
 
 	<body>
@@ -39,10 +47,9 @@
 					<div class="jumbotron">
 					<div class="practice">
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default">Chord</button>
-							<button type="button" class="btn btn-default">Scale</button>
+							<button type="button" class="btn btn-default">Chords</button>
+							<button type="button" class="btn btn-default">Scales</button>
 							<button type="button" class="btn btn-default">Intervals</button>
-							<button type="button" class="btn btn-default">Test</button>
 						</div>
 					</div>
 						<h1 class="col-xs-12">MIDI keyboard</h1>
@@ -87,7 +94,6 @@
 						<div class="display">
 							<span>Chord played: {{conn.chord}}</span>
 							<span>Scale played: {{conn.scale}}</span>
-							<h1>{{conn.greeting}}</h1>
 						</div>
 						<div class="quiz">
 							<p>Practice: Play this chord!</p>
@@ -108,13 +114,6 @@
 			</div>
 		</div>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-	<script src="app/app.js"></script>
-	<script src="app/controllers/DrawCtrl.js"></script>
-	<script src="app/controllers/ConnectCtrl.js"></script>
-	<script src="app/lib/midi.js"></script>
-	<script src="app/directives/inputDirective.js"></script>
-	<script src="app/directives/quizDirective.js"></script>
-	<script src="app/lib/howler.min.js"></script>
+	</body>
 
 </html>

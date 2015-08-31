@@ -14,7 +14,9 @@
 		<script src="app/controllers/ConnectCtrl.js"></script>
 		<script src="app/lib/midi.js"></script>
 		<script src="app/directives/inputDirective.js"></script>
-		<script src="app/directives/quizDirective.js"></script>
+		<script src="app/services/inputFactory.js"></script>
+		<script src="app/services/chordFactory.js"></script>
+		<script src="app/services/scaleFactory.js"></script>
 		<script src="app/lib/howler.min.js"></script>
 	</head>
 
@@ -46,7 +48,7 @@
 				<div ng-controller="DrawCtrl as draw">
 					<div class="jumbotron">
 						<h1 class="col-xs-12">MIDI keyboard</h1>
-						<select class="select-midi" ng-model="activeDevice" class="form-control" ng-options="device.manufacturer + ' ' + device.name for device in conn.devices">
+						<select class="select-midi" ng-model="conn.activeDevice" class="form-control" ng-options="device.manufacturer + ' ' + device.name for device in conn.devices">
 						    <option value="" disabled>Available MIDI devices</option>
 						</select>
 						<div class="piano-container">
@@ -55,8 +57,8 @@
 							</div>
 							<div class="white-key-container">
 								<img
-									class="white-key"
 									press-white-key
+									class="white-key"
 									ng-src={{draw.white_key}}
 									ng-repeat="t in draw.range(52) track by $index"
 									draggable="false"
@@ -70,8 +72,8 @@
 							<div class="black-key-container">
 								<div ng-repeat="key in draw.keys track by $index" ng-switch="key.black">
 									<img
-										class="black-key"
 										press-black-key
+										class="black-key"
 										ng-switch-when="true"
 										ng-src={{draw.black_key}}
 										draggable="false"

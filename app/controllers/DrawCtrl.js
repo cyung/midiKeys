@@ -1,4 +1,7 @@
-angular.module('app')
+(function() {
+	'use strict';
+
+	angular.module('app')
 	.controller('DrawCtrl', ['$scope', function($scope) {
 		var self = this;
 		self.piano_back = 'img/background.png';
@@ -51,3 +54,5 @@ angular.module('app')
 			return new Array(num);
 		};
 	}]);
+	
+})();

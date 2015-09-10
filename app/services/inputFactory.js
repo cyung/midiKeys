@@ -7,12 +7,14 @@
 	function inputFactory($interval, chordFactory, scaleFactory) {
 		var self = this;
 		self.device = null;
-		var key_map = [];
-		var key_vel = [];
-		var key_history = [];
+		var key_map = []; // values storing the state of each key
+		var key_vel = []; // key velocity
+		var key_history = []; // buffer of most recent 20 keys
+		var key_down = []; // store keys being held down
 		var down_num = 144;
 		var up_num = 128;
-		var index_white, index_black, stop;
+		var index_white, index_black; // midi mappings for white and black keys
+		var stop; // interval timer for clearing history
 
 		generateMappings();
 
@@ -55,6 +57,16 @@
 			// only retain the last 20 keys
 			if (key_history.length > 20)
 				key_history.shift();
+
+			key_down.push(key_num);
+		}
+
+		function keyUp(key_num) {
+			for (var i=0; i<key_down.length; i++) {
+				if (key_down[i] === key_num) {
+					key_down.splice(i,1);
+				}
+			}
 		}
 
 		function clearHistory() {
@@ -86,6 +98,7 @@
 					User.scale = scaleFactory.checkScale(key_history);
 				} else {
 					key_map[key_num] = false;
+					keyUp(key_num);
 				}
 			}
 			// } else if (input.name === 'Q49' ||

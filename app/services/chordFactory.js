@@ -6,18 +6,21 @@
 
 	function chordFactory() {
 		var major_chords = [];
-		var major_chord_names = [];
+		var major_chords_names = [];
 		var minor_chords = [];
-		var minor_chord_names = [];
+		var minor_chords_names = [];
 		var maj7_chords = [];
-		var maj7_chord_names = [];
+		var maj7_chords_names = [];
 		var min7_chords = [];
-		var min7_chord_names = [];
+		var min7_chords_names = [];
 		var dom7_chords = [];
-		var dom7_chord_names = [];
+		var dom7_chords_names = [];
+
+		var chord_tree = new Tree(-1);
 
 		generateChords();
 		sortChords();
+		generateChordTree();
 
 		var services = {
 			checkChord: checkChord
@@ -57,11 +60,11 @@
 				'A', 'A#', 'B'];
 
 			for (i=0; i<12; i++) {
-				major_chord_names.push(notes[i] + ' Major');
-				minor_chord_names.push(notes[i] + ' Minor');
-				maj7_chord_names.push(notes[i] + 'Maj7');
-				dom7_chord_names.push(notes[i] + '7');
-				min7_chord_names.push(notes[i] + 'm7');
+				major_chords_names.push(notes[i] + ' Major');
+				minor_chords_names.push(notes[i] + ' Minor');
+				maj7_chords_names.push(notes[i] + 'Maj7');
+				dom7_chords_names.push(notes[i] + '7');
+				min7_chords_names.push(notes[i] + 'm7');
 			}
 		}
 
@@ -88,23 +91,23 @@
 			var chord = '';
 			for (i=0; i<12; i++) {
 				if (compareNotes(history7, dom7_chords[i])) {
-					chord = dom7_chord_names[i];
+					chord = dom7_chords_names[i];
 					break;
 				}
 				else if (compareNotes(history7, maj7_chords[i])) {
-					chord = maj7_chord_names[i];
+					chord = maj7_chords_names[i];
 					break;
 				}
 				else if (compareNotes(history7, min7_chords[i])) {
-					chord = min7_chord_names[i];
+					chord = min7_chords_names[i];
 					break;
 				}
 				else if (compareNotes(history, major_chords[i])) {
-					chord = major_chord_names[i];
+					chord = major_chords_names[i];
 					break;
 				}
 				else if (compareNotes(history, minor_chords[i])) {
-					chord = minor_chord_names[i];
+					chord = minor_chords_names[i];
 					break;
 				}
 			}
@@ -135,5 +138,31 @@
 			});
 			return history;
 		}
+
+		// generates a prefix tree for all possible chords
+		function generateChordTree() {
+			for (var i=0; i<major_chords.length; i++) {
+				addToTree(chord_tree, major_chords[i], major_chords_names, 0);
+			}
+
+			// chord_tree.printBFS();
+		}
+
+		function addToTree(tree, chordNotes, chordName, depth) {
+			if (depth === chordNotes.length)
+				return;
+
+			var index = tree.indexOfChild(chordNotes.slice(0, depth+1));
+			if (index !== -1) {
+				console.log(tree.children);
+				addToTree(tree.children[index], chordNotes, depth+1);
+			}
+			else {
+				tree.addChild(chordNotes.slice(0, depth+1));
+				addToTree(tree.children[tree.children.length-1], chordNotes, depth+1);
+			}
+		}
+
+
 	}
 })();

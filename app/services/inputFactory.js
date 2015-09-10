@@ -82,7 +82,6 @@
 			if (key_state === 144) { // key down/up
 				if (key_vel !== 0) {
 					keyDown(key_num, key_vel);
-					console.log(key_history);
 					User.chord = chordFactory.checkChord(key_history);
 					User.scale = scaleFactory.checkScale(key_history);
 				} else {

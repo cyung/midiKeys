@@ -83,7 +83,7 @@
 			}
 		}
 
-		function checkChord(key_history) {
+		function checkChordWithHistory(key_history) {
 			var i;
 			var history = getHistory(key_history, 3, true);
 			var history7 = getHistory(key_history, 4, true);
@@ -148,10 +148,11 @@
 				addToTree(chord_tree, min7_chords[i], min7_chords_names[i], 1);
 			}
 
-			// chord_tree.printBFS();
-		}
+			chord_tree.printBFS();
+		}	
 
 		function addToTree(tree, chordNotes, chordName, depth) {
+			debugger;
 			if (depth > chordNotes.length)
 				return;
 
@@ -169,7 +170,7 @@
 			}
 		}
 
-		function checkChord2(key_down) {
+		function detectChord(key_down) {
 			var chords = [];
 			aux(chord_tree, key_down, 1);
 
@@ -186,6 +187,28 @@
 			}
 
 			return chords;
+		}
+
+		function checkChord(key_down, chord) {
+			var chords = detectChord(key_down);
+
+			for (var i=0; i<chords.length; i++) {
+
+			}
+		}
+
+		function getRandomProgression() {
+			var progression = [];
+
+			var key = Math.floor(Math.random() * 12);
+
+			progression.push(minor_chords[key]);
+			key = (key+5) % 12;
+			progression.push(major_chords[key]);
+			key = (key+5) % 12;
+			progression.push(major_chords[key]);
+
+			return progression;
 		}
 
 	}

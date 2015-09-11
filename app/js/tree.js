@@ -34,23 +34,15 @@ treeMethods.contains = function(target) {
   return false;
 };
 
-treeMethods.indexOfChild = function(value) {
-  if (this.value === undefined || value === undefined)
+treeMethods.indexOfChild = function(array) {
+  if (this.value === undefined || this.value.constructor !== Array)
     return -1;
 
   // shallow comparison for array
-  if (value.constructor === Array) {
-    for (var i=0; i<this.children.length; i++) {
-      childValue = this.children[i].value;
-      for (var j=0; j<value.length; j++) {
-        if (childValue[j] !== value[j])
-          break;
-
-        if (j === value.length-1) {
-          return i;
-        }
-      }
-    }
+  for (var i=0; i<this.children.length; i++) {
+    childArray = this.children[i].value;
+    if (childArray.equals(array))
+      return i;
   }
 
   return -1;

@@ -53,6 +53,7 @@
 			return self.activeDevice;
 		}, function() {
 			inputFactory.plug(self.activeDevice);
+
 		});
 
 

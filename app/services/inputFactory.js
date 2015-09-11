@@ -60,12 +60,37 @@
 
 			key_down.push(key_num);
 			key_down.sort();
+
+			setChord();
+			setScale();
+		}
+
+		function setChord() {
+			// get array of possible chords
+			var chords = chordFactory.detectChord(key_down);
+
+			if (chords.length === 0) {
+				User.chord = '';
+				return;
+			}
+
+			// if there is chord already held down or the user let go of
+			// the previous chord, assign a new one
+			if (User.chord === '' || chords.indexOf(User.chord) !== -1)
+				User.chord = chords[0];
+		}
+
+		function setScale() {
+			User.scale = scaleFactory.getScale(key_map);
 		}
 
 		function keyUp(key_num) {
+			key_map[key_num] = false;
+
 			for (var i=0; i<key_down.length; i++) {
 				if (key_down[i] === key_num) {
 					key_down.splice(i,1);
+					break;
 				}
 			}
 		}
@@ -95,10 +120,7 @@
 			if (key_state === 144) { // key down/up
 				if (key_vel !== 0) {
 					keyDown(key_num, key_vel);
-					User.chord = chordFactory.checkChord(key_history);
-					User.scale = scaleFactory.checkScale(key_history);
 				} else {
-					key_map[key_num] = false;
 					keyUp(key_num);
 				}
 			}

@@ -142,27 +142,36 @@
 		// generates a prefix tree for all possible chords
 		function generateChordTree() {
 			for (var i=0; i<major_chords.length; i++) {
-				addToTree(chord_tree, major_chords[i], major_chords_names, 0);
+				addToTree(chord_tree, major_chords[i], major_chords_names[i], 1);
+				addToTree(chord_tree, minor_chords[i], minor_chords_names[i], 1);
+				addToTree(chord_tree, maj7_chords[i], maj7_chords_names[i], 1);
+				addToTree(chord_tree, min7_chords[i], min7_chords_names[i], 1);
 			}
 
-			// chord_tree.printBFS();
+			chord_tree.printBFS();
 		}
 
 		function addToTree(tree, chordNotes, chordName, depth) {
-			if (depth === chordNotes.length)
+			debugger;
+			if (depth > chordNotes.length)
 				return;
 
-			var index = tree.indexOfChild(chordNotes.slice(0, depth+1));
+			var index = tree.indexOfChild(chordNotes.slice(0, depth));
 			if (index !== -1) {
-				console.log(tree.children);
-				addToTree(tree.children[index], chordNotes, depth+1);
+				addToTree(tree.children[index], chordNotes, chordName, depth+1);
 			}
 			else {
-				tree.addChild(chordNotes.slice(0, depth+1));
-				addToTree(tree.children[tree.children.length-1], chordNotes, depth+1);
+				tree.addChild(chordNotes.slice(0, depth));
+				
+				if (depth === chordNotes.length)
+					tree.children[tree.children.length-1].chordNames.push(chordName);
+
+				addToTree(tree.children[tree.children.length-1], chordNotes, chordName, depth+1);
 			}
 		}
 
+		function checkChord2(key_down) {
+		}
 
 	}
 })();

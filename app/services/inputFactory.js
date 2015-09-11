@@ -59,6 +59,7 @@
 				key_history.shift();
 
 			key_down.push(key_num);
+			key_down.sort();
 		}
 
 		function keyUp(key_num) {

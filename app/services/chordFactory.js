@@ -148,11 +148,10 @@
 				addToTree(chord_tree, min7_chords[i], min7_chords_names[i], 1);
 			}
 
-			chord_tree.printBFS();
+			// chord_tree.printBFS();
 		}
 
 		function addToTree(tree, chordNotes, chordName, depth) {
-			debugger;
 			if (depth > chordNotes.length)
 				return;
 
@@ -171,6 +170,22 @@
 		}
 
 		function checkChord2(key_down) {
+			var chords = [];
+			aux(chord_tree, key_down, 1);
+
+			function aux(tree, keys, depth) {
+				if (depth > keys.length)
+					return;
+
+				var index = tree.indexOfChild(keys.slice(0, depth));
+				if (index !== -1) {
+					var child = tree.children[index];
+					chords = chords.concat(child.chordNames);
+					aux(child, keys, depth+1);
+				}
+			}
+
+			return chords;
 		}
 
 	}

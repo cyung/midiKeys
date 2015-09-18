@@ -2,15 +2,16 @@
 	'use strict';
 	
 	angular.module('app')
-	.controller('ConnectCtrl', ['$scope', 'Devices', 'inputFactory',
-	 function($scope, devices, inputFactory) {
+	.controller('ConnectCtrl', ['$scope', 'Devices', 'inputFactory', 'displayFactory',
+	 function($scope, devices, inputFactory, displayFactory) {
 		var self = this;
 		self.devices = [];
 		self.key_vel = inputFactory.getKeyVel();
 		self.key_map = inputFactory.getKeyMap();
 		self.key_history = inputFactory.getKeyHistory();
 
-		var mappings = inputFactory.getMappings();
+		console.log(displayFactory);
+		var mappings = displayFactory.getMappings();
 		self.index_white = mappings[0];
 		self.index_black = mappings[1];
 		self.chord = inputFactory.User.chord;

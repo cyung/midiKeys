@@ -24,7 +24,7 @@
 		<script src="app/lib/howler.min.js"></script>
 	</head>
 
-	<body>
+	<body ng-app="app">
 		<nav class="navbar navbar-default">
 			<div class="container">
 				<div class="navbar-header">
@@ -47,7 +47,7 @@
 				</form>
 			</div>
 		</nav>
-		<div class="container piano" ng-app="app">
+		<div class="container piano">
 			<div ng-controller="ConnectCtrl as conn">
 				<div ng-controller="DrawCtrl as draw">
 					<div class="jumbotron">

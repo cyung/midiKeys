@@ -65,10 +65,8 @@ treeMethods.printBFS = function() {
   queue.enqueue(this);
 
   while (queue.size() > 0) {
-    console.log('--------------');
     var tree = queue.dequeue();
     for (var i=0; i<tree.children.length; i++) {
-      console.log(tree.children[i].value);
       queue.enqueue(tree.children[i]);
     }
   }

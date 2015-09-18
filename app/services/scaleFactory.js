@@ -81,13 +81,13 @@
 				return a-b;
 			};
 			for (var i=0; i<12; i++) {
-				scale_ionian[i].sort(sortNum);
-				scale_dorian[i].sort(sortNum);
-				scale_phrygian[i].sort(sortNum);
-				scale_lydian[i].sort(sortNum);
-				scale_mixolydian[i].sort(sortNum);
-				scale_aeolian[i].sort(sortNum);
-				scale_locrian[i].sort(sortNum);
+				scale_ionian[i]     .sort(sortNum);
+				scale_dorian[i]     .sort(sortNum);
+				scale_phrygian[i]   .sort(sortNum);
+				scale_lydian[i]     .sort(sortNum);
+				scale_mixolydian[i] .sort(sortNum);
+				scale_aeolian[i]    .sort(sortNum);
+				scale_locrian[i]    .sort(sortNum);
 			}
 		}
 

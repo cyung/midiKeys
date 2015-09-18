@@ -152,7 +152,6 @@
 		}	
 
 		function addToTree(tree, chordNotes, chordName, depth) {
-			debugger;
 			if (depth > chordNotes.length)
 				return;
 
@@ -189,12 +188,16 @@
 			return chords;
 		}
 
+		// check to see if the current keys being played contain a chord
 		function checkChord(key_down, chord) {
 			var chords = detectChord(key_down);
 
 			for (var i=0; i<chords.length; i++) {
-
+				if (chords[i] === chord)
+					return true;
 			}
+
+			return false;
 		}
 
 		function getRandomProgression() {
@@ -202,11 +205,11 @@
 
 			var key = Math.floor(Math.random() * 12);
 
-			progression.push(minor_chords[key]);
+			progression.push(minor_chords_names[key]);
 			key = (key+5) % 12;
-			progression.push(major_chords[key]);
+			progression.push(major_chords_names[key]);
 			key = (key+5) % 12;
-			progression.push(major_chords[key]);
+			progression.push(major_chords_names[key]);
 
 			return progression;
 		}

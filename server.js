@@ -4,19 +4,22 @@ var http = require('http');
 var port = 3000;
 
 var app = express();
-app.use(express.static(__dirname + '/client'));
+app.use(express.static(__dirname + '/public'));
 
-
-app.get('/practice', function(req, res, next){
-  res.sendFile(__dirname + '/client/practice.html');
+app.get('/', function(req, res) {
+	res.sendFile(__dirname + '/public/index.html');
 });
 
-app.get('/play', function(req, res, next){
-  res.sendFile(__dirname + '/client/play.html');
+app.get('/practice', function(req, res){
+  res.sendFile(__dirname + '/public/practice.html');
 });
 
-app.get('/contact', function(req, res, next){
-  res.sendFile(__dirname + '/client/contact.html');
+app.get('/play', function(req, res){
+  res.sendFile(__dirname + '/public/play.html');
+});
+
+app.get('/contact', function(req, res){
+  res.sendFile(__dirname + '/public/contact.html');
 });
 
 var server = app.listen(port, function () {
